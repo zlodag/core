@@ -198,7 +198,7 @@ aioqsw==0.1.0
 aiorecollect==1.0.8
 
 # homeassistant.components.remootio
-aioremootio==1.0.0a11
+aioremootio==1.0.0a13
 
 # homeassistant.components.ridwell
 aioridwell==2022.03.0
