@@ -813,10 +813,10 @@ tests/components/recollect_waste/* @bachya
 homeassistant/components/recorder/* @home-assistant/core
 tests/components/recorder/* @home-assistant/core
 homeassistant/components/rejseplanen/* @DarkFox
-homeassistant/components/remote/* @home-assistant/core
-tests/components/remote/* @home-assistant/core
 homeassistant/components/remootio/* @ivgg-me
 tests/components/remootio/* @ivgg-me
+homeassistant/components/remote/* @home-assistant/core
+tests/components/remote/* @home-assistant/core
 homeassistant/components/renault/* @epenet
 tests/components/renault/* @epenet
 homeassistant/components/repetier/* @MTrab @ShadowBr0ther
