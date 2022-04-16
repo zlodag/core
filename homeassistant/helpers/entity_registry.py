@@ -58,7 +58,7 @@ SAVE_DELAY = 10
 _LOGGER = logging.getLogger(__name__)
 
 STORAGE_VERSION_MAJOR = 1
-STORAGE_VERSION_MINOR = 6
+STORAGE_VERSION_MINOR = 7
 STORAGE_KEY = "core.entity_registry"
 
 # Attributes relevant to describing entity
@@ -109,6 +109,7 @@ class RegistryEntry:
     hidden_by: RegistryEntryHider | None = attr.ib(default=None)
     icon: str | None = attr.ib(default=None)
     id: str = attr.ib(factory=uuid_util.random_uuid_hex)
+    labels: set[str] = attr.ib(factory=set)
     name: str | None = attr.ib(default=None)
     options: Mapping[str, Mapping[str, Any]] = attr.ib(
         default=None, converter=attr.converters.default_if_none(factory=dict)  # type: ignore[misc]
@@ -328,6 +329,7 @@ class EntityRegistry:
         config_entry: ConfigEntry | None = None,
         device_id: str | None = None,
         entity_category: EntityCategory | None = None,
+        labels: set[str] | None = None,
         original_device_class: str | None = None,
         original_icon: str | None = None,
         original_name: str | None = None,
@@ -349,6 +351,7 @@ class EntityRegistry:
                 config_entry_id=config_entry_id or UNDEFINED,
                 device_id=device_id or UNDEFINED,
                 entity_category=entity_category or UNDEFINED,
+                labels=labels or UNDEFINED,
                 original_device_class=original_device_class or UNDEFINED,
                 original_icon=original_icon or UNDEFINED,
                 original_name=original_name or UNDEFINED,
@@ -391,6 +394,7 @@ class EntityRegistry:
             entity_category=entity_category,
             entity_id=entity_id,
             hidden_by=hidden_by,
+            labels=labels or set(),
             original_device_class=original_device_class,
             original_icon=original_icon,
             original_name=original_name,
@@ -497,6 +501,7 @@ class EntityRegistry:
         entity_category: EntityCategory | None | UndefinedType = UNDEFINED,
         hidden_by: RegistryEntryHider | None | UndefinedType = UNDEFINED,
         icon: str | None | UndefinedType = UNDEFINED,
+        labels: set[str] | UndefinedType = UNDEFINED,
         name: str | None | UndefinedType = UNDEFINED,
         new_entity_id: str | UndefinedType = UNDEFINED,
         new_unique_id: str | UndefinedType = UNDEFINED,
@@ -538,6 +543,7 @@ class EntityRegistry:
             ("entity_category", entity_category),
             ("hidden_by", hidden_by),
             ("icon", icon),
+            ("labels", labels),
             ("name", name),
             ("original_device_class", original_device_class),
             ("original_icon", original_icon),
@@ -655,6 +661,7 @@ class EntityRegistry:
                     hidden_by=entity["hidden_by"],
                     icon=entity["icon"],
                     id=entity["id"],
+                    labels=set(entity["labels"]),
                     name=entity["name"],
                     options=entity["options"],
                     original_device_class=entity["original_device_class"],
@@ -691,6 +698,7 @@ class EntityRegistry:
                 "hidden_by": entry.hidden_by,
                 "icon": entry.icon,
                 "id": entry.id,
+                "labels": list(entry.labels),
                 "name": entry.name,
                 "options": entry.options,
                 "original_device_class": entry.original_device_class,
@@ -722,6 +730,15 @@ class EntityRegistry:
         for entity_id, entry in self.entities.items():
             if area_id == entry.area_id:
                 self.async_update_entity(entity_id, area_id=None)
+
+    @callback
+    def async_clear_label_id(self, label_id: str) -> None:
+        """Clear label from registry entries."""
+        for entity_id, entry in self.entities.items():
+            if label_id in entry.labels:
+                labels = entry.labels.copy()
+                labels.remove(label_id)
+                self.async_update_entity(entity_id, labels=labels)
 
 
 @callback
@@ -765,6 +782,14 @@ def async_entries_for_area(
 ) -> list[RegistryEntry]:
     """Return entries that match an area."""
     return [entry for entry in registry.entities.values() if entry.area_id == area_id]
+
+
+@callback
+def async_entries_for_label(
+    registry: EntityRegistry, label_id: str
+) -> list[RegistryEntry]:
+    """Return entries that match an label."""
+    return [entry for entry in registry.entities.values() if label_id in entry.labels]
 
 
 @callback
@@ -853,6 +878,11 @@ async def _async_migrate(
         # Version 1.6 adds hidden_by
         for entity in data["entities"]:
             entity["hidden_by"] = None
+
+    if old_major_version == 1 and old_minor_version < 7:
+        # Version 1.7 adds labels
+        for entity in data["entities"]:
+            entity["labels"] = []
 
     if old_major_version > 1:
         raise NotImplementedError
