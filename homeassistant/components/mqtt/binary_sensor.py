@@ -33,8 +33,8 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.util import dt as dt_util
 
-from . import MqttValueTemplate, subscription
-from .. import mqtt
+from . import subscription
+from .config import MQTT_RO_PLATFORM_SCHEMA
 from .const import CONF_ENCODING, CONF_QOS, CONF_STATE_TOPIC, PAYLOAD_NONE
 from .debug_info import log_messages
 from .mixins import (
@@ -44,6 +44,7 @@ from .mixins import (
     async_setup_entry_helper,
     async_setup_platform_helper,
 )
+from .models import MqttValueTemplate
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,7 +55,7 @@ DEFAULT_PAYLOAD_ON = "ON"
 DEFAULT_FORCE_UPDATE = False
 CONF_EXPIRE_AFTER = "expire_after"
 
-PLATFORM_SCHEMA = mqtt.MQTT_RO_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA = MQTT_RO_PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_DEVICE_CLASS): DEVICE_CLASSES_SCHEMA,
         vol.Optional(CONF_EXPIRE_AFTER): cv.positive_int,

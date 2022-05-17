@@ -48,14 +48,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.reload import async_setup_reload_service
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from . import (
-    DATA_MQTT,
-    PLATFORMS,
-    MqttValueTemplate,
-    async_publish,
-    debug_info,
-    subscription,
-)
+from . import debug_info, subscription
+from .client import async_publish
 from .const import (
     ATTR_DISCOVERY_HASH,
     ATTR_DISCOVERY_PAYLOAD,
@@ -64,6 +58,7 @@ from .const import (
     CONF_ENCODING,
     CONF_QOS,
     CONF_TOPIC,
+    DATA_MQTT,
     DATA_MQTT_RELOAD_NEEDED,
     DEFAULT_ENCODING,
     DEFAULT_PAYLOAD_AVAILABLE,
@@ -71,6 +66,7 @@ from .const import (
     DOMAIN,
     MQTT_CONNECTED,
     MQTT_DISCONNECTED,
+    PLATFORMS,
 )
 from .debug_info import log_message, log_messages
 from .discovery import (
@@ -80,7 +76,7 @@ from .discovery import (
     clear_discovery_hash,
     set_discovery_hash,
 )
-from .models import PublishPayloadType, ReceiveMessage
+from .models import MqttValueTemplate, PublishPayloadType, ReceiveMessage
 from .subscription import (
     async_prepare_subscribe_topics,
     async_subscribe_topics,

@@ -14,8 +14,8 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from . import MqttValueTemplate, subscription
-from .. import mqtt
+from . import subscription
+from .config import MQTT_RW_PLATFORM_SCHEMA
 from .const import (
     CONF_COMMAND_TOPIC,
     CONF_ENCODING,
@@ -30,6 +30,7 @@ from .mixins import (
     async_setup_entry_helper,
     async_setup_platform_helper,
 )
+from .models import MqttValueTemplate
 
 CONF_PAYLOAD_LOCK = "payload_lock"
 CONF_PAYLOAD_UNLOCK = "payload_unlock"
@@ -53,7 +54,7 @@ MQTT_LOCK_ATTRIBUTES_BLOCKED = frozenset(
     }
 )
 
-PLATFORM_SCHEMA = mqtt.MQTT_RW_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA = MQTT_RW_PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
         vol.Optional(CONF_OPTIMISTIC, default=DEFAULT_OPTIMISTIC): cv.boolean,

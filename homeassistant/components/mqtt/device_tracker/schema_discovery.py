@@ -18,17 +18,18 @@ from homeassistant.const import (
 from homeassistant.core import callback
 import homeassistant.helpers.config_validation as cv
 
-from .. import MqttValueTemplate, subscription
-from ... import mqtt
+from .. import subscription
+from ..config import MQTT_RO_PLATFORM_SCHEMA
 from ..const import CONF_QOS, CONF_STATE_TOPIC
 from ..debug_info import log_messages
 from ..mixins import MQTT_ENTITY_COMMON_SCHEMA, MqttEntity, async_setup_entry_helper
+from ..models import MqttValueTemplate
 
 CONF_PAYLOAD_HOME = "payload_home"
 CONF_PAYLOAD_NOT_HOME = "payload_not_home"
 CONF_SOURCE_TYPE = "source_type"
 
-PLATFORM_SCHEMA_DISCOVERY = mqtt.MQTT_RO_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA_DISCOVERY = MQTT_RO_PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_NAME): cv.string,
         vol.Optional(CONF_PAYLOAD_HOME, default=STATE_HOME): cv.string,

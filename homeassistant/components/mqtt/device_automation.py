@@ -4,7 +4,7 @@ import functools
 import voluptuous as vol
 
 from . import device_trigger
-from .. import mqtt
+from .config import MQTT_BASE_PLATFORM_SCHEMA
 from .mixins import async_setup_entry_helper
 
 AUTOMATION_TYPE_TRIGGER = "trigger"
@@ -12,7 +12,7 @@ AUTOMATION_TYPES = [AUTOMATION_TYPE_TRIGGER]
 AUTOMATION_TYPES_SCHEMA = vol.In(AUTOMATION_TYPES)
 CONF_AUTOMATION_TYPE = "automation_type"
 
-PLATFORM_SCHEMA = mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA = MQTT_BASE_PLATFORM_SCHEMA.extend(
     {vol.Required(CONF_AUTOMATION_TYPE): AUTOMATION_TYPES_SCHEMA},
     extra=vol.ALLOW_EXTRA,
 )

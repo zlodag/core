@@ -29,7 +29,7 @@ from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.typing import ConfigType
 
 from . import debug_info, trigger as mqtt_trigger
-from .. import mqtt
+from .config import MQTT_BASE_PLATFORM_SCHEMA
 from .const import ATTR_DISCOVERY_HASH, CONF_PAYLOAD, CONF_QOS, CONF_TOPIC, DOMAIN
 from .discovery import MQTT_DISCOVERY_DONE
 from .mixins import (
@@ -64,7 +64,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
     }
 )
 
-TRIGGER_DISCOVERY_SCHEMA = mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+TRIGGER_DISCOVERY_SCHEMA = MQTT_BASE_PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_AUTOMATION_TYPE): str,
         vol.Required(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
@@ -94,7 +94,7 @@ class TriggerInstance:
     async def async_attach_trigger(self) -> None:
         """Attach MQTT trigger."""
         mqtt_config = {
-            mqtt_trigger.CONF_PLATFORM: mqtt.DOMAIN,
+            mqtt_trigger.CONF_PLATFORM: DOMAIN,
             mqtt_trigger.CONF_TOPIC: self.trigger.topic,
             mqtt_trigger.CONF_ENCODING: DEFAULT_ENCODING,
             mqtt_trigger.CONF_QOS: self.trigger.qos,

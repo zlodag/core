@@ -23,8 +23,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from . import MqttValueTemplate, subscription
-from .. import mqtt
+from . import subscription
+from .config import MQTT_RW_PLATFORM_SCHEMA
 from .const import (
     CONF_COMMAND_TOPIC,
     CONF_ENCODING,
@@ -40,6 +40,7 @@ from .mixins import (
     async_setup_entry_helper,
     async_setup_platform_helper,
 )
+from .models import MqttValueTemplate
 
 DEFAULT_NAME = "MQTT Switch"
 DEFAULT_PAYLOAD_ON = "ON"
@@ -48,7 +49,7 @@ DEFAULT_OPTIMISTIC = False
 CONF_STATE_ON = "state_on"
 CONF_STATE_OFF = "state_off"
 
-PLATFORM_SCHEMA = mqtt.MQTT_RW_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA = MQTT_RW_PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
         vol.Optional(CONF_OPTIMISTIC, default=DEFAULT_OPTIMISTIC): cv.boolean,
