@@ -109,6 +109,27 @@ COVERS: dict[str, tuple[TuyaCoverEntityDescription, ...]] = {
             device_class=CoverDeviceClass.GARAGE,
         ),
     ),
+    # My Garage Door Opener
+    "mc": (
+        TuyaCoverEntityDescription(
+            key=DPCode.CONTROL,
+            open_instruction_value="open",
+            close_instruction_value="close",
+            name="control normal",
+            current_state=DPCode.STATUS,
+            current_state_inverse=False,
+            device_class=CoverDeviceClass.GARAGE,
+        ),
+        TuyaCoverEntityDescription(
+            key=DPCode.CONTROL,
+            open_instruction_value="fopen",
+            close_instruction_value="fclose",
+            name="control with f",
+            current_state=DPCode.STATUS,
+            current_state_inverse=False,
+            device_class=CoverDeviceClass.GARAGE,
+        ),
+    ),
     # Curtain Switch
     # https://developer.tuya.com/en/docs/iot/category-clkg?id=Kaiuz0gitil39
     "clkg": (
@@ -273,7 +294,7 @@ class TuyaCoverEntity(TuyaEntity, CoverEntity):
             is not None
         ):
             return self.entity_description.current_state_inverse is not (
-                current_state in (True, "fully_close")
+                current_state in (True, "fully_close", "closed")
             )
 
         if (position := self.current_cover_position) is not None:

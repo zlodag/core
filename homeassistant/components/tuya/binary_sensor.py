@@ -190,6 +190,12 @@ BINARY_SENSORS: dict[str, tuple[TuyaBinarySensorEntityDescription, ...]] = {
             key=DPCode.DOORCONTACT_STATE,
             device_class=BinarySensorDeviceClass.DOOR,
         ),
+        # Garage Door Opener
+        TuyaBinarySensorEntityDescription(
+            key=DPCode.STATUS,
+            device_class=BinarySensorDeviceClass.GARAGE_DOOR,
+            on_value="opened",
+        ),
     ),
     # Door Window Sensor
     # https://developer.tuya.com/en/docs/iot/s?id=K9gf48hm02l8m

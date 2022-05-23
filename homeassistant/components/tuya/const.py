@@ -88,6 +88,7 @@ class TuyaDeviceClass(StrEnum):
     """Tuya specific device classes, used for translations."""
 
     AIR_QUALITY = "tuya__air_quality"
+    GARAGE_DOOR_STATUS = "tuya__garage_door_status"
     CURTAIN_MODE = "tuya__curtain_mode"
     CURTAIN_MOTOR_MODE = "tuya__curtain_motor_mode"
     BASIC_ANTI_FLICKR = "tuya__basic_anti_flickr"

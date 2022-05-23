@@ -375,7 +375,15 @@ SENSORS: dict[str, tuple[TuyaSensorEntityDescription, ...]] = {
     ),
     # Door and Window Controller
     # https://developer.tuya.com/en/docs/iot/s?id=K9gf48r5zjsy9
-    "mc": BATTERY_SENSORS,
+    "mc": (
+        TuyaSensorEntityDescription(
+            key=DPCode.STATUS,
+            name="Door",
+            icon="mdi:garage-variant",
+            device_class=TuyaDeviceClass.GARAGE_DOOR_STATUS,
+        ),
+        *BATTERY_SENSORS,
+    ),
     # Door Window Sensor
     # https://developer.tuya.com/en/docs/iot/s?id=K9gf48hm02l8m
     "mcs": BATTERY_SENSORS,

@@ -11,6 +11,13 @@
       "standby": "Standby",
       "warm": "Heat preservation"
     },
+    "tuya__garage_door_status": {
+      "opened": "Open",
+      "closed": "Closed",
+      "opening": "Opening",
+      "openning": "OpenNing",
+      "closing": "Closing"
+    },
     "tuya__air_quality": {
       "great": "Great",
       "mild": "Mild",
