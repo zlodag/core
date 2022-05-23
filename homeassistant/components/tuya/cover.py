@@ -111,15 +111,15 @@ COVERS: dict[str, tuple[TuyaCoverEntityDescription, ...]] = {
     ),
     # My Garage Door Opener
     "mc": (
-        TuyaCoverEntityDescription(
-            key=DPCode.CONTROL,
-            open_instruction_value="open",
-            close_instruction_value="close",
-            name="control normal",
-            current_state=DPCode.STATUS,
-            current_state_inverse=False,
-            device_class=CoverDeviceClass.GARAGE,
-        ),
+        # TuyaCoverEntityDescription(
+        #     key=DPCode.CONTROL,
+        #     open_instruction_value="open",
+        #     close_instruction_value="close",
+        #     name="control normal",
+        #     current_state=DPCode.STATUS,
+        #     current_state_inverse=False,
+        #     device_class=CoverDeviceClass.GARAGE,
+        # ),
         TuyaCoverEntityDescription(
             key=DPCode.CONTROL,
             open_instruction_value="fopen",

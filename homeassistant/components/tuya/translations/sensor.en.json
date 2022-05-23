@@ -6,6 +6,13 @@
             "mild": "Mild",
             "severe": "Severe"
         },
+        "tuya__garage_door_status": {
+            "opened": "Open",
+            "closed": "Closed",
+            "opening": "Opening",
+            "openning": "OpenNing",
+            "closing": "Closing"
+        },
         "tuya__status": {
             "boiling_temp": "Boiling temperature",
             "cooling": "Cooling",
